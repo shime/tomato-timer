@@ -1,0 +1,27 @@
+#!/usr/bin/env node
+
+var growl    = require('growl')
+  , program  = require('commander')
+  , path     = require('path')
+  , fs       = require('fs')
+  , after    = require('after-time')
+  , version  = require('../package').version
+  , pomodoro = path.join(__dirname, '..', 'assets', 'tomato.png')
+
+program
+  .version(version)
+  .option('-t, --task <name>', 'task name')
+  .parse(process.argv)
+
+
+var task = program.task
+
+if (task){
+  growl(task, { title: 'Pomodoro - task started', image: pomodoro })
+  after('25 mins', function() {
+    growl(task, { title: 'Pomodoro - take a break!', image: pomodoro })
+  })
+} else {
+  program.help()
+}
+

@@ -1,0 +1,31 @@
+{
+  "name": "tomato-timer",
+  "description": "Minimalistic Pomodoro timer for the command line.",
+  "version": "0.0.1",
+  "author": "Hrvoje Simic <shime.ferovac@gmail.com>",
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Hrvoje Simic",
+      "email": "shime.ferovac@gmail.com"
+    }
+  ],
+  "keywords": [
+    "pomodoro",
+    "technique",
+    "timer"
+  ],
+  "homepage": "https://github.com/shime/tomato-timer",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shime/tomato-timer.git"
+  },
+  "bin": {
+    "tomato": "./bin/tomato"
+  },
+  "dependencies": {
+    "after-time": "0.0.1",
+    "commander": "^2.3.0",
+    "growl": "^1.8.1"
+  }
+}

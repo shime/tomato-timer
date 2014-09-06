@@ -25,7 +25,10 @@
   },
   "dependencies": {
     "after-time": "0.0.1",
+    "colors": "^0.6.2",
     "commander": "^2.3.0",
-    "growl": "^1.8.1"
+    "growl": "^1.8.1",
+    "humanize-time": "0.0.1",
+    "repeat-time": "0.0.1"
   }
 }

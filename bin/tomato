@@ -6,6 +6,11 @@ var growl    = require('growl')
   , fs       = require('fs')
   , after    = require('after-time')
 
+  , repeat   = require('repeat-time')
+  , progress = require('../ext/progress')
+  , color    = require('colors')
+  , time     = require('humanize-time')
+
   , version  = require('../package').version
   , pomodoro = path.join(__dirname, '..', 'assets', 'tomato.png')
 
@@ -15,6 +20,19 @@ program
   .parse(process.argv)
 
 var task = program.task
+  , bar  = new progress(task + ' :bar :percent :elapsed'.red, {
+    total: 25 * 60,
+    width: 25,
+    formatter: function(eta, elapsed, percent){
+      return this.fmt
+        .replace(':current', this.curr)
+        .replace(':total', this.total)
+        .replace(':elapsed', isNaN(elapsed) ? '0.0' : time(elapsed))
+        .replace(':eta', (isNaN(eta) || !isFinite(eta)) ? '0.0' : (eta / 1000)
+          .toFixed(1))
+        .replace(':percent', percent.toFixed(0) + '%')
+    }
+  })
 
 if (task){
   startTask()
@@ -22,9 +40,23 @@ if (task){
   program.help()
 }
 
-function startTask(){
+function renderBar(){
+  console.log("task in progress".cyan)
+  bar.tick()
+  repeat('1 s', function(){
+    bar.tick()
+  })
+}
+
+function growlNotify(){
   growl(task, { title: 'Pomodoro - task started', image: pomodoro })
   after('25 mins', function() {
     growl(task, { title: 'Pomodoro - take a break!', image: pomodoro })
+    process.exit()
   })
+}
+
+function startTask(){
+  renderBar()
+  growlNotify()
 }
